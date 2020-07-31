@@ -10,9 +10,6 @@ RUN apk add --no-cache git
 
 RUN npm install
 
-#COPY ./app-macos .
 COPY . .
 CMD npm start
-#CMD ./app-macos
-#CMD npm run dev
 EXPOSE 4321
