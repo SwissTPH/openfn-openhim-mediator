@@ -7,7 +7,7 @@
     "core": "github:openfn/core#v1.0.0",
     "express": "^4.17.1",
     "language-dhis2": "git+https://github.com/OpenFn/language-dhis2.git",
-    "language-openmrs": "git+https://github.com/OpenFn/language-openMRS.git",
+    "language-openmrs": "git+https://github.com/OpenFn/language-openmrs.git",
     "openhim-mediator-utils": "^0.2.3",
     "pino": "^5.13.5",
     "pino-pretty": "^3.2.2"

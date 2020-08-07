@@ -38,23 +38,51 @@
   ],
   "configDefs": [
     {
-      "param": "dhis",
-      "displayName": "DHIS2 Instance Details",
-      "description": "The custom DHIS2 instance details for data fetch",
+      "param": "server",
+      "displayName": "End server Instance Details",
+      "description": "Instance details for data fetch",
       "type": "struct",
       "array": false,
       "template": [
         {
           "param": "url",
           "displayName": "DHIS2 URL",
-          "description": "The DHIS2 instance instance including credentials. ie: https://username:password@yourDhis2Instance.org",
+          "description": "The DHIS2 instance instance including credentials. ie: https://play.dhis2.org/2.34.1",
           "type": "string"
         },
         {
-          "param": "path",
-          "displayName": "DHIS2 Path",
-          "description": "The Path to the specific data you want from DHIS2",
+          "param": "user",
+          "displayName": "Username",
+          "description": "The username to the end server",
           "type": "string"
+        },
+        {
+          "param": "password",
+          "displayName": "Password",
+          "description": "The password to the end server",
+          "type": "password"
+        }
+      ]
+    },
+    {
+      "param": "job",
+      "displayName": "Language Details",
+      "description": "Language adequate for end server and expression to be used",
+      "type": "struct",
+      "array": false,
+      "template": [
+        {
+          "param": "expression",
+          "displayName": "Expression",
+          "description": "Expression with action to be performed in the end server",
+          "type": "bigstring"
+        },
+        {
+          "param": "language",
+          "displayName": "Language",
+          "description": "Language to be used, should be related to the end server",
+          "type": "option",
+          "values": ["language-dhis2", "language-openmrs","language-http"]
         }
       ]
     }
