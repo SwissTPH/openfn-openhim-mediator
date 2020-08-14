@@ -10,9 +10,3 @@ export const OPENHIM_USERNAME =
 export const OPENHIM_PASSWORD =
   process.env.OPENHIM_PASSWORD || 'openhim-password'
 export const TRUST_SELF_SIGNED = process.env.TRUST_SELF_SIGNED === 'true'
-
-// DHIS2
-export const DHIS2_URL =
-  process.env.DHIS2_URL || 'https://play.dhis2.org/2.34.1'
-export const DHIS2_USERNAME = process.env.DHIS2_USERNAME || 'admin'
-export const DHIS2_PASSWORD = process.env.DHIS2_PASSWORD || 'district'

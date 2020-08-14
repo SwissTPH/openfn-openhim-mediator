@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 // The OpenHIM Mediator Utils is an essential package for quick mediator setup.
 // It handles the OpenHIM authentication, mediator registration, and mediator heartbeat.
-import {activateHeartbeat, registerMediator} from 'openhim-mediator-utils'
+import {activateHeartbeat, registerMediator, fetchConfig} from 'openhim-mediator-utils'
 import logger from './logger'
 
 // The OpenHIM config is controlled via Environment Variables to prevent ever having to
@@ -17,7 +17,7 @@ import {
 } from './config/config'
 
 import {setMediatorUrn} from './routes/utils'
-
+var config = {}
 const mediatorSetup = () => {
   // The mediatorConfig file contains some basic configuration settings about the mediator
   // as well as details about the default channel setup.
@@ -42,7 +42,6 @@ const mediatorSetup = () => {
     trustSelfSigned: TRUST_SELF_SIGNED,
     urn: mediatorConfig.urn
   }
-
   // The purpose of registering the mediator is to allow easy communication between the mediator and the OpenHIM.
   // The details received by the OpenHIM will allow quick channel setup which will allow tracking of requests from
   // the client through any number of mediators involved and all the responses along the way(if the mediators are
@@ -54,16 +53,27 @@ const mediatorSetup = () => {
         `Failed to register mediator. Check your Config: ${err.message}`
       )
     }
+    fetchConfig(openhimConfig, (err, newConfig) => {
+      if (err) {
+        throw new Error(`Failed to register mediator. Check your Config. ${err}`)
+      }
+      console.log(newConfig)
+      config = newConfig
+      exports.config = config
+      logger.info('Successfully registered mediator!')
 
-    logger.info('Successfully registered mediator!')
-
-    // The activateHeartbeat method returns an Event Emitter which allows the mediator to attach listeners waiting
-    // for specific events triggered by OpenHIM responses to the mediator posting its heartbeat.
-    const emitter = activateHeartbeat(openhimConfig)
-    emitter.on('error', err => {
-      logger.error(`Heartbeat failed: ${JSON.stringify(err)}`)
+      // The activateHeartbeat method returns an Event Emitter which allows the mediator to attach listeners waiting
+      // for specific events triggered by OpenHIM responses to the mediator posting its heartbeat.
+      const emitter = activateHeartbeat(openhimConfig)
+      emitter.on('error', err => {
+        logger.error(`Heartbeat failed: ${JSON.stringify(err)}`)
+      })
+      emitter.on('config', newConfig => {
+        console.log(newConfig)
+        config = newConfig
+        exports.config = config
+      })
     })
   })
 }
-
 exports.mediatorSetup = mediatorSetup

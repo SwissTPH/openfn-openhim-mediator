@@ -1,0 +1,19 @@
+{
+  "coverage": "66.66%",
+  "expectCount": 3,
+  "actualCount": 2,
+  "files": {
+    "src/Adaptor.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/Client.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    }
+  }
+}
