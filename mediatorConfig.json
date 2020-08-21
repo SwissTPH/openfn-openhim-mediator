@@ -38,6 +38,12 @@
   ],
   "configDefs": [
     {
+      "param": "trigger",
+      "displayName": "Filter",
+      "description": "Trigger to wait for, for the execution of the expression",
+      "type": "string"
+    },
+    {
       "param": "server",
       "displayName": "End server Instance Details",
       "description": "Instance details for data fetch",
