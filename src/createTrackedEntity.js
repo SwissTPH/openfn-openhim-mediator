@@ -1,7 +1,3 @@
-//Sample job to create Tracked Entity Instance and Enroll in a Program
-
-import {createTEI} from 'language-dhis2'
-
 createTEI({
   trackedEntityType: 'nEenWmSyUEp',
   orgUnit: 'g8upMTyEZGZ',

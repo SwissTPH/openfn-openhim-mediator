@@ -6,7 +6,8 @@ COPY package.json package-lock.json ./
 
 ##RUN apk update and apk add git && npm install
 #https://github.com/nodejs/docker-node/issues/586
-RUN apk add --no-cache git
+
+RUN apk update && apk add bash && apk add --no-cache git
 
 RUN npm install
 

@@ -3,7 +3,8 @@
 import logger from '../logger'
 import {buildReturnObject} from './utils'
 //import {execute} from 'core/lib/cli'
-import Execute from 'core/lib/execute'
+const Prepare = require('../../core/lib/prepare')
+
 import fs from 'fs'
 const {VM} = require('vm2')
 import {execute as execute_dhis2} from 'language-dhis2/lib/Adaptor'
@@ -29,7 +30,6 @@ module.exports = (_req, res) => {
     console.log(error)
   }
   if (trigger) {
-    var language = require(openhim.config.job.language + '/lib/Adaptor')
     console.log('---Event Triggered---')
     state.configuration = {
       username: openhim.config.server.user,
@@ -72,36 +72,37 @@ module.exports = (_req, res) => {
     //      return res.send(returnObject)
     //    }
     //  })
-    var funct = openhim.config.job.expression
-    var temp = openhim.config.job.expression.split('({',1)[0]
-    let pos= temp.length+1; // +1 because of the parenthesis
-    try {
-      let vm = new VM({sandbox: {state}})
-      // -1 to remove the last parenthesis
-      var newFunct = vm.run('newFunct = ' +funct.substr(pos, funct.length - pos - 1))
-    } catch (error) {
-      console.log(error)
-      logger.error(error)
-    }
-    //Execute({ne, state})
-    language['execute'](
-        language[`${temp}`](newFunct)
-    )(state).then((result)=>{
-      const returnObject = buildReturnObject(
-          result.references[0].body.httpStatus,
-          result.references[0].body.httpStatusCode,
-          result.references[0].body.message
-      )
-      return res.send(returnObject)
-    })
-        .catch((error) => {
-          logger.error(error)
-          const returnObject = buildReturnObject(
-              'Failed',
-              error.response.body.httpStatusCode,
-              error.response.body.message
-          )
-          return res.send(returnObject)
-        })
+    // var funct = openhim.config.job.expression
+    // var temp = openhim.config.job.expression.split('({',1)[0]
+    // let pos= temp.length+1; // +1 because of the parenthesis
+    // try {
+    //   let vm = new VM({sandbox: {state}})
+    //   // -1 to remove the last parenthesis
+    //   var newFunct = vm.run('newFunct = ' +funct.substr(pos, funct.length - pos - 1))
+    // } catch (error) {
+    //   console.log(error)
+    //   logger.error(error)
+    // }
+    // //Execute({ne, state})
+    // language['execute'](
+    //     language[`${temp}`](newFunct)
+    // )(state).then((result)=>{
+    //   const returnObject = buildReturnObject(
+    //       result.references[0].body.httpStatus,
+    //       result.references[0].body.httpStatusCode,
+    //       result.references[0].body.message
+    //   )
+    //   return res.send(returnObject)
+    // })
+    //     .catch((error) => {
+    //       logger.error(error)
+    //       const returnObject = buildReturnObject(
+    //           'Failed',
+    //           error.response.body.httpStatusCode,
+    //           error.response.body.message
+    //       )
+    //       return res.send(returnObject)
+    //     })
+    Prepare(state,openhim.config.job.expression, openhim.config.job.language)
   }
 }
