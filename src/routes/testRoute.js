@@ -103,6 +103,8 @@ module.exports = (_req, res) => {
     //       )
     //       return res.send(returnObject)
     //     })
-    Prepare(state,openhim.config.job.expression, openhim.config.job.language)
+    var expression = openhim.config.job.expression
+    var language = openhim.config.job.language
+    Prepare(state,expression, language,res)
   }
 }

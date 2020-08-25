@@ -2,14 +2,14 @@
 
 let urn
 
-export const setMediatorUrn = mediatorUrn => {
+const setMediatorUrn = mediatorUrn => {
   urn = mediatorUrn
 }
 
 // The OpenHIM accepts a specific response structure which allows transactions to display correctly
 // The openhimTransactionStatus can be one of the following values:
 // Successful, Completed, Completed with Errors, Failed, or Processing
-export const buildReturnObject = (
+const buildReturnObject = (
   openhimTransactionStatus,
   httpResponseStatusCode,
   responseBody
@@ -27,3 +27,8 @@ export const buildReturnObject = (
     properties: {property: 'Primary Route'}
   }
 }
+
+module.exports = {
+  buildReturnObject,
+  setMediatorUrn
+};
