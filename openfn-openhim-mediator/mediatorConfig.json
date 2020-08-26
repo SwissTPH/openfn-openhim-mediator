@@ -1,0 +1,96 @@
+{
+  "urn": "urn:mediator:skeleton-production-mediator",
+  "version": "0.0.1",
+  "name": "Skeleton Production Bootstrap Mediator",
+  "description": "Skeleton Production Bootstrap Mediator",
+  "defaultChannelConfig": [
+    {
+      "name": "Production Route",
+      "urlPattern": "^/testEndpoint",
+      "routes": [
+        {
+          "name": "Test Route",
+          "host": "mediator",
+          "port": "4321",
+          "primary": true,
+          "type": "http"
+        }
+      ],
+      "allow": [
+        "admin"
+      ],
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "type": "http"
+    }
+  ],
+  "endpoints": [
+    {
+      "name": "Test Mediator",
+      "host": "dhis2server",
+      "path": "/testEndpoint",
+      "port": "8085",
+      "primary": true,
+      "type": "http"
+    }
+  ],
+  "configDefs": [
+    {
+      "param": "trigger",
+      "displayName": "Filter",
+      "description": "Trigger to wait for, for the execution of the expression",
+      "type": "string"
+    },
+    {
+      "param": "server",
+      "displayName": "End server Instance Details",
+      "description": "Instance details for data fetch",
+      "type": "struct",
+      "array": false,
+      "template": [
+        {
+          "param": "url",
+          "displayName": "DHIS2 URL",
+          "description": "The DHIS2 instance instance including credentials. ie: https://play.dhis2.org/2.34.1",
+          "type": "string"
+        },
+        {
+          "param": "user",
+          "displayName": "Username",
+          "description": "The username to the end server",
+          "type": "string"
+        },
+        {
+          "param": "password",
+          "displayName": "Password",
+          "description": "The password to the end server",
+          "type": "password"
+        }
+      ]
+    },
+    {
+      "param": "job",
+      "displayName": "Language Details",
+      "description": "Language adequate for end server and expression to be used",
+      "type": "struct",
+      "array": false,
+      "template": [
+        {
+          "param": "expression",
+          "displayName": "Expression",
+          "description": "Expression with action to be performed in the end server",
+          "type": "bigstring"
+        },
+        {
+          "param": "language",
+          "displayName": "Language",
+          "description": "Language to be used, should be related to the end server",
+          "type": "option",
+          "values": ["language-dhis2", "language-openmrs","language-http"]
+        }
+      ]
+    }
+  ]
+}
