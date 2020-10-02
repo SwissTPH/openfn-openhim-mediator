@@ -25,7 +25,8 @@ To start using OpenHIM and the provided mediator following steps should be follo
 
 6- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
 
-![alt text](https://github.com/SwissTPH/openfn-openhim-mediator/edit/master/images/openhim_mediator.png "Mediators in Openhim")
+![alt text](images/openhim_mediator.png "Mediators in Openhim")
 
 7- A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
-![alt text](https://github.com/SwissTPH/openfn-openhim-mediator/edit/master/images/configuration_mediator.png "Configuration of the Mediator")
+
+![alt text](images/configuration_mediator.png "Configuration of the Mediator")
