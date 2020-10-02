@@ -52,8 +52,8 @@
       "template": [
         {
           "param": "url",
-          "displayName": "DHIS2 URL",
-          "description": "The DHIS2 instance instance including credentials. ie: https://play.dhis2.org/2.34.1",
+          "displayName": "endserver URL",
+          "description": "The URL to your running instance. ie: https://play.dhis2.org/2.34.1",
           "type": "string"
         },
         {
