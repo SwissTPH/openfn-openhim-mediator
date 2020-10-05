@@ -6,6 +6,7 @@
 ## Useful links
 * Additional information on mediators and configuration: http://openhim.org/docs/dev-guide/developing-mediators/
 * OpenFN github repositories (inc. languages): https://github.com/OpenFn/
+* OpenFN platform, which influenced this project https://www.openfn.org/
 * To manually install and setup mongodb when not using docker (requirement for the manual installation of openhim) : https://docs.mongodb.com/manual/installation/ 
 * If you want to install openHIM manually: http://openhim.org/docs/installation/manual
 * If you want to install openHIM with npm: http://openhim.org/docs/installation/npm
