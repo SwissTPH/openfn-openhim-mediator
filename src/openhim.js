@@ -4,9 +4,12 @@ import fs from 'fs'
 import path from 'path'
 // The OpenHIM Mediator Utils is an essential package for quick mediator setup.
 // It handles the OpenHIM authentication, mediator registration, and mediator heartbeat.
-import {activateHeartbeat, registerMediator, fetchConfig} from 'openhim-mediator-utils'
+import {
+  activateHeartbeat,
+  fetchConfig,
+  registerMediator
+} from 'openhim-mediator-utils'
 import logger from './logger'
-
 // The OpenHIM config is controlled via Environment Variables to prevent ever having to
 // risk committing sensitive data to source control
 import {
@@ -15,8 +18,14 @@ import {
   OPENHIM_USERNAME,
   TRUST_SELF_SIGNED
 } from './config/config'
-
 import {setMediatorUrn} from './routes/utils'
+
+const getDirectories = languages =>
+  fs
+    .readdirSync(languages, {withFileTypes: true})
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
+
 var config = {}
 const mediatorSetup = () => {
   // The mediatorConfig file contains some basic configuration settings about the mediator
@@ -28,6 +37,10 @@ const mediatorSetup = () => {
   let mediatorConfig
   try {
     mediatorConfig = JSON.parse(mediatorConfigFile)
+    // Dynamically create the list of languages in the languages folder
+    mediatorConfig.configDefs[2].template[1].values = getDirectories(
+      './languages'
+    )
   } catch (error) {
     logger.error(`Failed to parse JSON in mediatorConfig.json`)
     throw error
@@ -55,7 +68,9 @@ const mediatorSetup = () => {
     }
     fetchConfig(openhimConfig, (err, newConfig) => {
       if (err) {
-        throw new Error(`Failed to register mediator. Check your Config. ${err}`)
+        throw new Error(
+          `Failed to register mediator. Check your Config. ${err}`
+        )
       }
       console.log(newConfig)
       config = newConfig
