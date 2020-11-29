@@ -28,18 +28,22 @@ To start using OpenHIM and the provided mediator following steps should be follo
 5- Platform should be accessible under localhost:9000.
 
 6- For it to be accessible in a different host, you will have to follow following steps:
-  6.1 - First modify the host parameter in the file "network/default" to your external host.
-  6.2 - You will have to create a certificate in your external host for it to be secure to access. One way to do this, is by installing certbot and running
+
+    6.1 - First modify the host parameter in the file "network/default" to your external host.
+  
+    6.2 - You will have to create a certificate in your external host for it to be secure to access. One way to do this, is by installing certbot and running
     ```certbot —nginx -d YOUR-HOST```
-  6.3 - The certificates will now have to be copied to the containers as well, which is done in the docker-compose file. Make sure to alter the YOUR-HOST part in the docker-compose to fit your certificate path and in the default.conf file. 
-  6.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder. 
+    
+    6.3 - The certificates will now have to be copied to the containers as well, which is done in the docker-compose file. Make sure to alter the YOUR-HOST part in the docker-compose to fit your certificate path and in the default.conf file. 
+  
+    6.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder. 
   NOTE: if you only want to use it locally on your localhost, just use the docker-compose file provided by the openhim in the tutorial above. 
 
-6- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
+7- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
 
 ![alt text](images/openhim_mediator.png "Mediators in Openhim")
 
-7- A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
+8- A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
 
 ![alt text](images/configuration_mediator.png "Configuration of the Mediator")
 
