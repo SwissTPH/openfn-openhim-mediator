@@ -36,7 +36,7 @@ To start using OpenHIM and the provided mediator following steps should be follo
     
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.3 - The certificates will now have to be copied to the containers as well, which is done in the docker-compose file. Make sure to alter the YOUR-HOST part in the docker-compose to fit your certificate path and in the default.conf file. 
   
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder. 
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder, if you use NODE_ENV=development you will need to alter the file openhim-core-conf/development.json, else if you choose to delete this NODE_ENV or set it to production, the file openhim-core-conf/default.json will be read. 
   NOTE: if you only want to use it locally on your localhost, just use the docker-compose file provided by the openhim in the tutorial above. 
 
 7- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
