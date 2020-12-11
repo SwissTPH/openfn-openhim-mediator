@@ -17,17 +17,13 @@ For easy usage of the platform, using docker is advised. It can be downloaded fr
 
 To start using OpenHIM and the provided mediator following steps should be followed:
 
-1 - Go to the network directory and run ``` docker-compose up ```. This is provided by the openHIM team to easily setup the platform and its database.
+1 - Go to the network directory and run ```docker-compose build```and ``` docker-compose up -d```. This is provided by the openHIM team to easily setup the platform and its database and was extended to build and run the mediator as well, you can change the environmental variables in the same file.
 
 2 - After having the openhim network running, follow step 3 to 5 of the openHIM [tutorial](https://github.com/jembi/openhim-mediator-tutorial/blob/master/0_Starting_OpenHIM.md)
 
-3 - Go back to the root directory and run ```docker build -t mediator . ```. The name mediator is arbritrary but you should remember it as it is how you will access your mediator. 
+3- Platform should be accessible under localhost:9000 or with your host instead of local in case you modified it.
 
-4 - Run the command ``` docker run -e OPENHIM_URL=https://openhim-core:8080 -e TRUST_SELF_SIGNED=true -e OPENHIM_PASSWORD=password -e SERVER_PORT=4321 --network network_openhim --name mediator --rm mediator ```. Replace "mediator" with the name that you chose in step 2.
-
-5- Platform should be accessible under localhost:9000.
-
-6- For it to be accessible in a different host, you will have to follow following steps:
+4- For it to be accessible in a different host, you will have to follow following steps:
 
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1 - First modify the host parameter in the file "network/default" to your external host.
   
@@ -39,15 +35,15 @@ To start using OpenHIM and the provided mediator following steps should be follo
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder, if you use NODE_ENV=development you will need to alter the file openhim-core-conf/development.json, else if you choose to delete this NODE_ENV or set it to production, the file openhim-core-conf/default.json will be read. 
   NOTE: if you only want to use it locally on your localhost, just use the docker-compose file provided by the openhim in the tutorial above. 
 
-7- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
+5- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
 
 ![alt text](images/openhim_mediator.png "Mediators in Openhim")
 
-8- After the mediator is properly shown in the platform, you will need to install the chanel by clicking on the mediator, and then clicking on the plus sign, as illustrated
+6- After the mediator is properly shown in the platform, you will need to install the chanel by clicking on the mediator, and then clicking on the plus sign, as illustrated
 
 ![alt text](images/installChanel_mediator.png "Installation of the chanel")
 
-9- A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
+7- A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
 
 ![alt text](images/configuration_mediator.png "Configuration of the Mediator")
 
