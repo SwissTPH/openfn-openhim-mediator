@@ -63,13 +63,15 @@ services:
     networks:
       - openhim
     expose:
-      - "4321"
+      - "4000"
     build: ../
     environment:
       - OPENHIM_URL=https://openhim-core:8080
       - TRUST_SELF_SIGNED=true
       - OPENHIM_PASSWORD=password
-      - SERVER_PORT=4321
-
+      - SERVER_PORT=4000
+      - MEDIATOR_NAME= "Skeleton Production Bootstrap Mediator"
+      - MEDIATOR_URN= "urn:mediator:skeleton-production-mediator"
+      - MEDIATOR_DESCRIPTION= "Different Skeleton Production Bootstrap Mediator"
 volumes:
   mongo-data:
