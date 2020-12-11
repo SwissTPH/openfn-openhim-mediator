@@ -10,3 +10,9 @@ export const OPENHIM_USERNAME =
 export const OPENHIM_PASSWORD =
   process.env.OPENHIM_PASSWORD || 'openhim-password'
 export const TRUST_SELF_SIGNED = process.env.TRUST_SELF_SIGNED === 'true'
+export const MEDIATOR_URN =
+  process.env.MEDIATOR_URN || 'urn:mediator:skeleton-production-mediator'
+export const MEDIATOR_NAME =
+  process.env.MEDIATOR_NAME || 'Skeleton Production Bootstrap Mediator'
+export const MEDIATOR_DESCRIPTION =
+  process.env.MEDIATOR_DESCRIPTION || 'Skeleton Production Bootstrap Mediator'

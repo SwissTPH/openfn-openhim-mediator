@@ -16,7 +16,10 @@ import {
   OPENHIM_PASSWORD,
   OPENHIM_URL,
   OPENHIM_USERNAME,
-  TRUST_SELF_SIGNED
+  TRUST_SELF_SIGNED,
+  MEDIATOR_URN,
+  MEDIATOR_NAME,
+  MEDIATOR_DESCRIPTION
 } from './config/config'
 import {setMediatorUrn} from './routes/utils'
 
@@ -41,6 +44,9 @@ const mediatorSetup = () => {
     mediatorConfig.configDefs[2].template[1].values = getDirectories(
       './languages'
     )
+    mediatorConfig.urn = MEDIATOR_URN
+    mediatorConfig.name = MEDIATOR_NAME
+    mediatorConfig.description = MEDIATOR_DESCRIPTION
   } catch (error) {
     logger.error(`Failed to parse JSON in mediatorConfig.json`)
     throw error
@@ -72,7 +78,6 @@ const mediatorSetup = () => {
           `Failed to register mediator. Check your Config. ${err}`
         )
       }
-      console.log(newConfig)
       config = newConfig
       exports.config = config
       logger.info('Successfully registered mediator!')
@@ -84,7 +89,6 @@ const mediatorSetup = () => {
         logger.error(`Heartbeat failed: ${JSON.stringify(err)}`)
       })
       emitter.on('config', newConfig => {
-        console.log(newConfig)
         config = newConfig
         exports.config = config
       })
