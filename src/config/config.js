@@ -16,3 +16,6 @@ export const MEDIATOR_NAME =
   process.env.MEDIATOR_NAME || 'Skeleton Production Bootstrap Mediator'
 export const MEDIATOR_DESCRIPTION =
   process.env.MEDIATOR_DESCRIPTION || 'Skeleton Production Bootstrap Mediator'
+export const CONTAINER_NAME = process.env.CONTAINER_NAME || 'mediator-default'
+export const URL_PATTERN = process.env.URL_PATTERN || '^/defaultEndpoint'
+export const ROUTE_NAME = process.env.ROUTE_NAME || 'Production Route'

@@ -19,7 +19,11 @@ import {
   TRUST_SELF_SIGNED,
   MEDIATOR_URN,
   MEDIATOR_NAME,
-  MEDIATOR_DESCRIPTION
+  MEDIATOR_DESCRIPTION,
+  CONTAINER_NAME,
+  SERVER_PORT,
+  ROUTE_NAME,
+  URL_PATTERN
 } from './config/config'
 import {setMediatorUrn} from './routes/utils'
 
@@ -30,6 +34,7 @@ const getDirectories = languages =>
     .map(dirent => dirent.name)
 
 var config = {}
+var medConfig = {}
 const mediatorSetup = () => {
   // The mediatorConfig file contains some basic configuration settings about the mediator
   // as well as details about the default channel setup.
@@ -47,6 +52,14 @@ const mediatorSetup = () => {
     mediatorConfig.urn = MEDIATOR_URN
     mediatorConfig.name = MEDIATOR_NAME
     mediatorConfig.description = MEDIATOR_DESCRIPTION
+    mediatorConfig.defaultChannelConfig[0].routes[0].host = CONTAINER_NAME
+    mediatorConfig.defaultChannelConfig[0].routes[0].port = SERVER_PORT
+    mediatorConfig.endpoints[0].host = CONTAINER_NAME
+    mediatorConfig.endpoints[0].port = SERVER_PORT
+    mediatorConfig.defaultChannelConfig[0].urlPattern = URL_PATTERN
+    mediatorConfig.defaultChannelConfig[0].name = ROUTE_NAME
+    let path = URL_PATTERN.replace('/', ',/')
+    mediatorConfig.endpoints[0].path = path.split(',')[1]
   } catch (error) {
     logger.error(`Failed to parse JSON in mediatorConfig.json`)
     throw error
