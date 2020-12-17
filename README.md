@@ -19,20 +19,44 @@ To start using OpenHIM and the provided mediator following steps should be follo
 
 1 - Go to the network directory and run ```docker-compose build```and ``` docker-compose up -d```. This is provided by the openHIM team to easily setup the platform and its database and was extended to build and run the mediator as well, you can change the environmental variables in the same file.
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1: There are environmental variables in the mediator that can be changed in order for you to have e.g. multiple mediators running, make sure that you change them if you have multiple of those in your docker-file. Even if you dont use the code in this repo, you may take this snippet and have it in your openhim dockerfile as to build your mediator automatically. If you do so, you will only need the variables OPENHIM_URL, TRUST_SELF_SIGNED, OPENHIM_PASSWORD, SERVER_PORT. 
+```
+mediator-default:
+     container_name: mediator-default
+     restart: unless-stopped
+     networks:
+       - openhim
+     expose:
+       - "4321"
+     build: ../
+     environment:
+       - OPENHIM_URL=https://openhim-core:8080
+       - TRUST_SELF_SIGNED=true
+       - OPENHIM_PASSWORD=password
+       - SERVER_PORT=4321
+       - CONTAINER_NAME=mediator-default
+       - MEDIATOR_NAME=mediator-default
+       - MEDIATOR_URN=urn:mediator:skeleton-production-mediator-default
+       - MEDIATOR_DESCRIPTION=Mediator for a default project
+       - URL_PATTERN=^/defaultEndpoint
+       - ROUTE_NAME=Default production route
+ ```
+       
+
 2 - After having the openhim network running, follow step 3 to 5 of the openHIM [tutorial](https://github.com/jembi/openhim-mediator-tutorial/blob/master/0_Starting_OpenHIM.md)
 
 3- Platform should be accessible under localhost:9000 or with your host instead of local in case you modified it.
 
 4- For it to be accessible in a different host, you will have to follow following steps:
 
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1 - First modify the host parameter in the file "network/default" to your external host.
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.1 - First modify the host parameter in the file "network/default" to your external host.
   
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2 - You will have to create a certificate in your external host for it to be secure to access. One way to do this, is by installing certbot and running
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.2 - You will have to create a certificate in your external host for it to be secure to access. One way to do this, is by installing certbot and running
     ```certbot —nginx -d YOUR-HOST```
     
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.3 - The certificates will now have to be copied to the containers as well, which is done in the docker-compose file. Make sure to alter the YOUR-HOST part in the docker-compose to fit your certificate path and in the default.conf file. 
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.3 - The certificates will now have to be copied to the containers as well, which is done in the docker-compose file. Make sure to alter the YOUR-HOST part in the docker-compose to fit your certificate path and in the default.conf file. 
   
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder, if you use NODE_ENV=development you will need to alter the file openhim-core-conf/development.json, else if you choose to delete this NODE_ENV or set it to production, the file openhim-core-conf/default.json will be read. 
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder, if you use NODE_ENV=development you will need to alter the file openhim-core-conf/development.json, else if you choose to delete this NODE_ENV or set it to production, the file openhim-core-conf/default.json will be read. 
   NOTE: if you only want to use it locally on your localhost, just use the docker-compose file provided by the openhim in the tutorial above. 
 
 5- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
