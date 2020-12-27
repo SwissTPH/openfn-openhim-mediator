@@ -12,14 +12,8 @@ import logger from '../logger'
 import {log} from 'async'
 
 module.exports = async (_req, res) => {
-  if (openhim.config.first_mediator)
-  {
-    var state = {}
-    state.data = _req.body
-  }else {
-    console.log(typeof _req.body)
-    state = _req.body
-  }
+  var state = {}
+  state.data = _req.body
   try {
     let vm = new VM({sandbox: {state}})
     var trigger = vm.run(openhim.config.trigger)
@@ -37,34 +31,6 @@ module.exports = async (_req, res) => {
     var lan_path = `./languages/${openhim.config.job.language}.Adaptor`
     var obj = await Execute_noCLI(expression, state, [],lan_path)
         .then(state => {
-          if (openhim.config.nxt_mediator){
-            logger.info("routing towards second mediator...")
-            var content_length = JSON.stringify(state).length
-            // An object of options to indicate where to post to
-            var post_options = {
-              host: 'mediator',
-              port: '4321',
-              path: openhim.config.nxt_mediator,
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': content_length
-              }
-            };
-            // Set up the request
-            logger.info("New state: " + JSON.stringify(state))
-            var post_req = http.request(post_options, function(res) {
-              res.setEncoding('utf8');
-              res.on('data', function (chunk) {
-                logger.info('Response from ' + openhim.config.nxt_mediator+': ' + chunk);
-                return chunk
-              });
-            });
-            // post the data
-            post_req.write(JSON.stringify(state));
-            post_req.end();
-
-          }
           return state;
         })
         .then(state => {
@@ -80,14 +46,6 @@ module.exports = async (_req, res) => {
               );
               return res.status(state.references[0].body.httpStatusCode).send(returnObject)
             }else if (state.references[0].status === 'COMPLETED'){
-              // let failed_list = []
-              // var counter = 1;
-              // for (let element in state.references){
-              //   if (element.status !== 'COMPLETED'){
-              //     failed_list.push(counter)
-              //     counter +=1;
-              //   }
-              // }
               const returnObject = buildReturnObject(
                   state.references[0].httpStatus? state.references[0].httpStatus : 'Completed',
                   state.references[0].httpStatusCode? state.references[0].httpStatusCode : 202,
@@ -131,7 +89,6 @@ module.exports = async (_req, res) => {
             if (typeof err.message === "string" && err.message.startsWith('responded')){
               err = JSON.parse(err.message.split('responded with:', 2)[1]);
               logger.error("Promise rejected with error: " + JSON.stringify(err))
-              console.log(Object.keys(err));
               const returnObject = buildReturnObject(
                   err.body.httpStatus,
                   err.body.httpStatusCode,
