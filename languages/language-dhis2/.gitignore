@@ -34,3 +34,6 @@ node_modules
 
 #Temp directory with sensitive information
 tmp
+
+# VS Code configuration
+.vscode

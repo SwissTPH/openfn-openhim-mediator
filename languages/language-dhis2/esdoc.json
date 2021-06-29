@@ -3,7 +3,5 @@
   "destination": "./docs",
   "index": "./README.md",
   "package": "./package.json",
-  "plugins": [
-    {"name": "esdoc-es7-plugin"}
-  ]
+  "plugins": [{ "name": "esdoc-es7-plugin" }]
 }

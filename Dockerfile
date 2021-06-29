@@ -13,6 +13,8 @@ RUN npm install
 
 COPY . .
 
-RUN node install.js
-CMD npm start
+
+WORKDIR /app
+
+CMD node install.js && npm start
 EXPOSE 4321

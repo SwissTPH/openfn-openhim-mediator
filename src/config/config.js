@@ -19,5 +19,5 @@ export const MEDIATOR_DESCRIPTION =
 export const CONTAINER_NAME = process.env.CONTAINER_NAME || 'mediator-default'
 export const URL_PATTERN = process.env.URL_PATTERN || '^/defaultEndpoint'
 export const ROUTE_NAME = process.env.ROUTE_NAME || 'Production Route'
-~
+
 

@@ -1,66 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">API Document</title>
-  <link type="text/css" rel="stylesheet" href="css/style.css">
-  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
-  <script src="script/prettify/prettify.js"></script>
-  
-  
-  <script src="script/manual.js"></script>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
-<body class="layout-container" data-ice="rootContainer">
 
-<header>
-  <a href="./">Home</a>
-  
-  <a href="identifiers.html">Reference</a>
-  <a href="source.html">Source</a>
-  
-  
-  <div class="search-box">
-  <span>
-    <img src="./image/search.png">
-    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
-  </span>
-    <ul class="search-result"></ul>
-  </div>
-</header>
+<body>
 
-<nav class="navigation" data-ice="nav"><div>
-  <ul>
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-event">event</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-execute">execute</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-post">post</a></span></span></li>
-</ul>
-</div>
-</nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="language-dhis2">Language DHIS2</h1>
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Language DHIS2 <a href="https://travis-ci.org/OpenFn/language-dhis2"><img src="https://travis-ci.org/OpenFn/language-dhis2.svg?branch=main" alt="Build Status"></a></h1>
 <p>Language Pack for building expressions and operations for working with
 the <a href="http://dhis2.github.io/dhis2-docs/master/en/developer/html/dhis2_developer_manual.html">DHIS2 API</a>.</p>
-<h2 id="documentation">Documentation</h2>
+<h2>Documentation</h2>
+<p>View the <a href="https://openfn.github.io/language-dhis2/">docs site</a> for full
+technical documentation. Below, find a samples of the most commonly used helper
+functions.</p>
+<h2>Sample State</h2>
+<pre class="prettyprint source lang-json"><code>{
+  &quot;configuration&quot;: {
+    &quot;username&quot;: &quot;admin&quot;,
+    &quot;password&quot;: &quot;district&quot;,
+    &quot;hostUrl&quot;: &quot;https://play.dhis2.org/2.35.1&quot;
+  },
+  &quot;data&quot;: {
+    &quot;a&quot;: 1,
+    &quot;b&quot;: 2
+  }
+}
+</code></pre>
+<h2>Analytics API</h2>
+<h4>Fetch analytics data for PMTCT data over last 6 months.</h4>
+<pre class="prettyprint source lang-js"><code>fetchAnalytics({
+  query: {
+    dimension: ['dx:CYI5LEmm3cG;GDVU1o5rTNF', 'pe:LAST_6_MONTHS'],
+    filter: 'ou:GHlyx9Pg9mn',
+    displayProperty: 'NAME',
+    outputIdScheme: 'UID',
+  },
+});
+</code></pre>
+<h2>Tracked Entity API</h2>
+<h4>Create a new tracked entity instance and enroll them from a CommCare form submission.</h4>
+<pre class="prettyprint source lang-js"><code>createTEI({
+  trackedEntityType: 'nEenWmSyUEp',
+  orgUnit: 'g8upMTyEZGZ',
+  attributes: [
+    {
+      attribute: 'w75KJ2mc4zz',
+      value: dataValue('form.first_name')(state),
+    },
+    {
+      attribute: 'zDhUuAYrxNC',
+      value: dataValue('form.last_name')(state),
+    },
+  ],
+  enrollments: [
+    {
+      orgUnit: 'g8upMTyEZGZ',
+      program: 'IpHINAT79UW',
+      enrollmentDate: '2019-04-08',
+      incidentDate: '2019-04-08',
+    },
+  ],
+});
+</code></pre>
+<h4>Upsert a tracked entity instance from a CommCare form submission.</h4>
+<pre class="prettyprint source lang-js"><code>upsertTEI(
+  'w75KJ2mc4zz', // match on 'patientID', a custom external ID in dhis2
+  {
+    trackedEntityType: 'nEenWmSyUEp',
+    orgUnit: 'g8upMTyEZGZ',
+    attributes: [
+      {
+        attribute: 'w75KJ2mc4zz',
+        value: dataValue('form.first_name')(state),
+      },
+      {
+        attribute: 'zDhUuAYrxNC',
+        value: dataValue('form.last_name')(state),
+      },
+    ],
+  }
+);
+</code></pre>
+<h2>Events API</h2>
+<h4><code>Events API</code> expression</h4>
+<pre class="prettyprint source lang-js"><code>event(
+  fields(
+    field(&quot;program&quot;, &quot;eBAyeGv0exc&quot;),
+    field(&quot;orgUnit&quot;, &quot;DiszpKrYNg8&quot;),
+    field(&quot;eventDate&quot;, dataValue(&quot;date&quot;)),
+    field(&quot;status&quot;, &quot;COMPLETED&quot;),
+    field(&quot;storedBy&quot;, &quot;admin&quot;),
+    field(&quot;coordinate&quot;, {
+      &quot;latitude&quot;: &quot;59.8&quot;,
+      &quot;longitude&quot;: &quot;10.9&quot;
+    }),
+    field(&quot;dataValues&quot;, function(state) {
+      return [
+        dataElement(&quot;qrur9Dvnyt5&quot;, dataValue(&quot;prop_a&quot;))(state)
+        dataElement(&quot;oZg33kd9taw&quot;, dataValue(&quot;prop_b&quot;))(state)
+        dataElement(&quot;msodh3rEMJa&quot;, dataValue(&quot;prop_c&quot;))(state)
+      ]
+    })
+  )
+)
+</code></pre>
+<h4>Current <code>fetchEvents API</code> expression (Optional <code>postUrl</code> for a complete fetch)</h4>
+<pre class="prettyprint source lang-js"><code>fetchEvents({
+  fields: {
+    orgUnit: 'DiszpKrYNg8',
+    program: 'eBAyeGv0exc',
+    endDate: '2016-01-01',
+  },
+  postUrl: 'https://www.openfn.org/inbox/123',
+});
+</code></pre>
+<h4>Reference on how to query and read events https://docs.dhis2.org/2.22/en/developer/html/ch01s15.html#d5e1994</h4>
+<h2>Data Values / Data Value Sets API</h2>
+<h4>Current <code>DataValueSets API</code> expression</h4>
+<pre class="prettyprint source lang-js"><code>dataValueSet({
+  dataSet: dataValue('set'),
+  orgUnit: 'DiszpKrYNg8',
+  period: '201402',
+  completeData: '2014-03-03',
+  dataValues: [
+    dataElement('f7n9E0hX8qk', dataValue('data[0].site_school_number')),
+    dataElement('Ix2HsbDMLea', dataValue('age')),
+    dataElement('eY5ehpbEsB7', 30),
+  ],
+});
+</code></pre>
+<h4>Current <code>fetchData API</code> expression (Optional <code>postUrl</code> for a complete fetch)</h4>
+<pre class="prettyprint source lang-js"><code>fetchData({
+  fields: {
+    dataSet: 'pBOMPrpg1QX',
+    orgUnit: 'DiszpKrYNg8',
+    period: '201711',
+  },
+  postUrl: 'https://www.openfn.org/inbox/123',
+});
+</code></pre>
+<h4>Reference on how to read data values https://docs.dhis2.org/2.22/en/developer/html/ch01s13.html#d5e1642</h4>
 <p><a href="docs/index">Docs</a></p>
-<h2 id="development">Development</h2>
+<h2>Development</h2>
 <p>Clone the repo, run <code>npm install</code>.</p>
 <p>Run tests using <code>npm run test</code> or <code>npm run test:watch</code></p>
-<p>Build the project using <code>make</code>.</p>
-</div>
+<p>Build the project using <code>make</code>.</p></article>
+    </section>
+
+
+
+
+
+
 </div>
 
-<footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="configMigrationHelper.html">configMigrationHelper</a></li><li><a href="execute.html">execute</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cancelEnrollment">cancelEnrollment</a></li><li><a href="global.html#completeEnrollment">completeEnrollment</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#createDataValues">createDataValues</a></li><li><a href="global.html#createEvents">createEvents</a></li><li><a href="global.html#createPrograms">createPrograms</a></li><li><a href="global.html#createTEI">createTEI</a></li><li><a href="global.html#del">del</a></li><li><a href="global.html#discover">discover</a></li><li><a href="global.html#enrollTEI">enrollTEI</a></li><li><a href="global.html#generateDhis2UID">generateDhis2UID</a></li><li><a href="global.html#getAnalytics">getAnalytics</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getDataValues">getDataValues</a></li><li><a href="global.html#getEnrollments">getEnrollments</a></li><li><a href="global.html#getEvents">getEvents</a></li><li><a href="global.html#getMetadata">getMetadata</a></li><li><a href="global.html#getPrograms">getPrograms</a></li><li><a href="global.html#getRelationships">getRelationships</a></li><li><a href="global.html#getResources">getResources</a></li><li><a href="global.html#getSchema">getSchema</a></li><li><a href="global.html#getTEIs">getTEIs</a></li><li><a href="global.html#patch">patch</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateEnrollments">updateEnrollments</a></li><li><a href="global.html#updateEvents">updateEvents</a></li><li><a href="global.html#updatePrograms">updatePrograms</a></li><li><a href="global.html#updateTEI">updateTEI</a></li><li><a href="global.html#upsert">upsert</a></li><li><a href="global.html#upsertTEI">upsertTEI</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Mar 09 2021 16:30:47 GMT+0000 (Greenwich Mean Time)
 </footer>
 
-<script src="script/search_index.js"></script>
-<script src="script/search.js"></script>
-<script src="script/pretty-print.js"></script>
-<script src="script/inherited-summary.js"></script>
-<script src="script/test-summary.js"></script>
-<script src="script/inner-link.js"></script>
-<script src="script/patch-for-local.js"></script>
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>
