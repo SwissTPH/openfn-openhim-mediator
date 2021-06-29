@@ -16,7 +16,14 @@ import {
   OPENHIM_PASSWORD,
   OPENHIM_URL,
   OPENHIM_USERNAME,
-  TRUST_SELF_SIGNED
+  TRUST_SELF_SIGNED,
+  MEDIATOR_URN,
+  MEDIATOR_NAME,
+  MEDIATOR_DESCRIPTION,
+  CONTAINER_NAME,
+  SERVER_PORT,
+  ROUTE_NAME,
+  URL_PATTERN
 } from './config/config'
 import {setMediatorUrn} from './routes/utils'
 
@@ -27,6 +34,7 @@ const getDirectories = languages =>
     .map(dirent => dirent.name)
 
 var config = {}
+var medConfig = {}
 const mediatorSetup = () => {
   // The mediatorConfig file contains some basic configuration settings about the mediator
   // as well as details about the default channel setup.
@@ -41,6 +49,17 @@ const mediatorSetup = () => {
     mediatorConfig.configDefs[2].template[1].values = getDirectories(
       './languages'
     )
+    mediatorConfig.urn = MEDIATOR_URN
+    mediatorConfig.name = MEDIATOR_NAME
+    mediatorConfig.description = MEDIATOR_DESCRIPTION
+    mediatorConfig.defaultChannelConfig[0].routes[0].host = CONTAINER_NAME
+    mediatorConfig.defaultChannelConfig[0].routes[0].port = SERVER_PORT
+    mediatorConfig.endpoints[0].host = CONTAINER_NAME
+    mediatorConfig.endpoints[0].port = SERVER_PORT
+    mediatorConfig.defaultChannelConfig[0].urlPattern = URL_PATTERN
+    mediatorConfig.defaultChannelConfig[0].name = ROUTE_NAME
+    let path = URL_PATTERN.replace('/', ',/')
+    mediatorConfig.endpoints[0].path = path.split(',')[1]
   } catch (error) {
     logger.error(`Failed to parse JSON in mediatorConfig.json`)
     throw error
@@ -72,7 +91,6 @@ const mediatorSetup = () => {
           `Failed to register mediator. Check your Config. ${err}`
         )
       }
-      console.log(newConfig)
       config = newConfig
       exports.config = config
       logger.info('Successfully registered mediator!')
@@ -84,7 +102,6 @@ const mediatorSetup = () => {
         logger.error(`Heartbeat failed: ${JSON.stringify(err)}`)
       })
       emitter.on('config', newConfig => {
-        console.log(newConfig)
         config = newConfig
         exports.config = config
       })
