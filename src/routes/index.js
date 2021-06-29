@@ -3,7 +3,7 @@
 import express from 'express'
 
 import {buildReturnObject} from './utils'
-import testEndpoint from './testRoute'
+import mainEndpoint from './mainRoute'
 const bodyParser = require('body-parser')
 
 import logger from '../logger'
@@ -12,7 +12,7 @@ const routes = express.Router()
 routes.use(bodyParser.urlencoded({extended: true}))
 routes.use(express.json())
 
-routes.post('/testEndpoint', testEndpoint)
+routes.post(process.env.URL_PATTERN, mainEndpoint)
 // Add more routes here if needed
 
 // Any request regardless of request type or url path to the mediator port will be caught here
