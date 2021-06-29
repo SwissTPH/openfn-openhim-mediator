@@ -1,7 +1,0 @@
-language: node_js
-node_js:
-# NOTE: to test current stable, uncomment "node"
-# - node # Current stable, i.e. 13 in October, 2019
-# - lts/* # Most recent LTS version, i.e. 12 in October, 2019
-- 12 # Explicitly include an active LTS version
-# - 10 # Explicitly include an active LTS version
