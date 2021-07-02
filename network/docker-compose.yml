@@ -76,7 +76,7 @@ services:
      environment:
        - OPENHIM_URL=https://openhim-core:8080
        - TRUST_SELF_SIGNED=true
-       - OPENHIM_USER=httu.admin@swisstph.ch
+       - OPENHIM_USERNAME=httu.admin@swisstph.ch
        - OPENHIM_PASSWORD=xWlUg5Gl1fAyYEG2QeAx
        - SERVER_PORT=4002
        - CONTAINER_NAME=mediator-sysref-reg

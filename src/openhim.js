@@ -28,8 +28,7 @@ import {
 import {setMediatorUrn} from './routes/utils'
 
 const getDirectories = languages =>
-  fs
-    .readdirSync(languages, {withFileTypes: true})
+  fs.readdirSync(languages, {withFileTypes: true})
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name)
 
@@ -47,8 +46,7 @@ const mediatorSetup = () => {
     mediatorConfig = JSON.parse(mediatorConfigFile)
     // Dynamically create the list of languages in the languages folder
     mediatorConfig.configDefs[2].template[1].values = getDirectories(
-      './languages'
-    )
+      '/app/languages' )
     mediatorConfig.urn = MEDIATOR_URN
     mediatorConfig.name = MEDIATOR_NAME
     mediatorConfig.description = MEDIATOR_DESCRIPTION
@@ -64,7 +62,7 @@ const mediatorSetup = () => {
     logger.error(`Failed to parse JSON in mediatorConfig.json`)
     throw error
   }
-
+  logger.info(JSON.stringify(mediatorConfig));
   setMediatorUrn(mediatorConfig.urn)
 
   const openhimConfig = {
