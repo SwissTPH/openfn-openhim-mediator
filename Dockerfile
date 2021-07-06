@@ -12,5 +12,9 @@ RUN apk update && apk add bash && apk add --no-cache git
 RUN npm install
 
 COPY . .
-CMD npm start
+
+
+WORKDIR /app
+
+CMD node install.js && npm start
 EXPOSE 4321
