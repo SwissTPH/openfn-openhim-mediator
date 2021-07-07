@@ -1,7 +1,9 @@
 'use strict'
-//import {buildReturnObject} from './utils'
-//const { Execute, Execute_noCLI } = require('../../core/lib/execute_noCLI');
+
+import {buildReturnObject} from './utils'
+const { Execute, Execute_noCLI } = require('../../core/lib/execute_noCLI');
 var http = require('http');
+
 const {VM} = require('vm2')
 
 import openhim from '../openhim'
