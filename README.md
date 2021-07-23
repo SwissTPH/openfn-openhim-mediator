@@ -85,5 +85,33 @@ Additionally you can access the variables and even change them in the script "op
 
 ![alt text](images/openhim_config_js.png "Accessing parameters outside the config file")
 
+## Utility functions in javascript for expression manipulation
+
+The file "src/routes/expression-utils.js" can be extended to have utility functions that can be used in the expression to better prepare the payload.
+The existing functions are:
+
+### converter(x)
+will convert numerical representations of booleans to their corresponding true or false value. For example 1 and "1" would be converted to true and 0, "0", "-1" and -1 will be converted to false. 
 
 
+### convertMultipleChoice(chosenAnswers, condition, conditionsDict)
+This function assumes a string of strings here called chosenAnswers e.g. "blue green brown" from a set of answers e.g. ["blue", "yellow", "green". "brown", "red"]. ConditionsDict would have multiple titles for those answer sets e.g. for the previous one, the title (in this case condition) could be color so that ```color: ["blue", "yellow", "green". "brown", "red"]``` would be an entry in the dictionary. In the end the conditionsDict would look something like: 
+```
+conditionsDict = { 
+     color: ["blue", "yellow", "green". "brown", "red"],
+     name: ["name1", "name2", "name3"]
+}
+```
+In the end, the function would return a dictionary that would have each element of the possible answers and wether they were chosen i.e. are represented in the chosenAnswers string or not, with their corresponding boolean representations. In the previous example the output would be:
+```
+answer = {
+     blue: true,
+     yellow: false,
+     green: true,
+     brown: true,
+     red: false
+}
+```
+
+### indexOf(array, target)
+This function is similar to the array.indexOf(target) javascript function and will return -1 if the target element is not found in the array or the index of the element in the array. 
