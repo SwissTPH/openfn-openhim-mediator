@@ -8,6 +8,7 @@ import openhim from '../openhim'
 import logger from '../logger'
 import {log} from 'async'
 import {buildReturnObject} from './utils'
+const expressions = require('./expression-utils')
 
 module.exports = async (_req, res) => {
 	
@@ -37,20 +38,22 @@ module.exports = async (_req, res) => {
 
 		const {
 			 safeResolve,
-			  getModuleDetails,
-			  formatCompileError,
+			 getModuleDetails,
+			 formatCompileError,
 			} = require('../../core/lib/utils');
 		const code = openhim.config.job.expression
-		const adaptorPath =
-		  safeResolve(`../../languages/${openhim.config.job.language}`) ||
-		  safeResolve(`../../languages/${openhim.config.job.language}`, { paths: ['.', process.cwd()] });
+		const adaptorPath = 
+		  safeResolve(`${openhim.config.job.language}`) ||
+                  safeResolve(`${openhim.config.job.language}`, { paths: ['.', process.cwd()] });
+		logger.info("language to use is: " + `${openhim.config.job.language}`)
+		logger.info("adaptor path being used: " + adaptorPath)
 		const Adaptor = require(adaptorPath).Adaptor;
 			// Setup our initial global object, adding language packs and any other
 			// objects we want on our root.
 		const sandbox = buildSandbox({
 			noConsole: false,
 			testMode: false,
-			extensions: [Adaptor],
+			extensions: [Adaptor, expressions],
 		  });
 		// Apply some transformations to the code (including a verify step) to
 		// check all function calls are valid.
@@ -120,6 +123,7 @@ module.exports = async (_req, res) => {
 
 	const makeErrResponse = function(state, err){
 		  logger.error(err)
+		  logger.info("state in time of error: " + JSON.stringify(state))
 		  let  returnObject = buildReturnObject(
 				'Failed',
 				500,
