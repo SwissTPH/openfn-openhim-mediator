@@ -123,11 +123,11 @@ This function will split a string of elements separated with a delimiter and wil
 
 # Launch Docker
 
-1. Edit the `default.json` file to point to the **public** host and port of your server. If you are just testing on localhost you can leave it set at the defaults.
+1. Edit the `docker-compose.yml` file to point to the **public** host and port of your server (DOMAIN environement variable). If you are just testing on localhost you can leave it set at the defaults.
 
 2. Spin up the OpenHIM core and console easily with docker compose:
 
-3. Generate the cert files and update the cert files path in conf/nginx/openhim.template  
+3. Generate the cert files on the host matching yoiur DOMAIN  
 
 4. start the compose
 ```
