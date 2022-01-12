@@ -24,7 +24,7 @@
   },
   "certificateManagement": {
     "watchFSForCert": true,
-    "certPath": "/etc/letsencrypt/live/openhim.swisstph-mis.ch/fullchain.pem",
-    "keyPath": "/etc/letsencrypt/live/openhim.swisstph-mis.ch/privkey.pem"
+    "certPath": "/etc/letsencrypt/live/$DOMAIN/fullchain.pem",
+    "keyPath": "/etc/letsencrypt/live/$DOMAIN/privkey.pem"
   }
 }

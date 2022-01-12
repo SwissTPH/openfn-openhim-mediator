@@ -1,8 +1,9 @@
+
 {
   "bindAddress": "0.0.0.0",
   "mongo": {
-    "url": "mongodb://localhost/openhim",
-    "atnaUrl": "mongodb://localhost/openhim",
+    "url": "mongodb://localhost/openhim-development",
+    "atnaUrl": "mongodb://localhost/openhim-development",
     "connectionOptions": {},
     "openHIMApiReadPreference": "primaryPreferred",
     "openHIMApiWriteConcern": 1,
@@ -21,7 +22,7 @@
     }
   },
   "router": {
-    "externalHostname": "openhim.swisstph-mis.ch",
+    "externalHostname": "$DOMAIN",
     "httpPort": 5001,
     "httpsPort": 5000,
     "timeout": 60000
@@ -94,7 +95,7 @@
     "enableAlerts": true,
     "pollPeriodMinutes": 1,
     "himInstance": "Local OpenHIM",
-    "consoleURL": "https://openhim.swisstph-mis.ch:9000"
+    "consoleURL": "https://$DOMAIN"
   },
   "reports": {
     "enableReports": true,
@@ -147,7 +148,7 @@
   },
   "certificateManagement": {
     "watchFSForCert": true,
-    "certPath": "/etc/letsencrypt/live/openhim.swisstph-mis.ch/fullchain.pem",
-    "keyPath": "/etc/letsencrypt/live/openhim.swisstph-mis.ch/privkey.pem"
+    "certPath": "/etc/letsencrypt/live/$DOMAIN/fullchain.pem",
+    "keyPath": "/etc/letsencrypt/live/$DOMAIN/privkey.pem"
   }
 }

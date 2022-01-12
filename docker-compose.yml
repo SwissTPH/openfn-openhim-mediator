@@ -1,0 +1,78 @@
+version: '3'
+networks:
+  openhim:
+services:
+  mongo-db:
+    container_name: mongo-db
+    restart: unless-stopped
+    image: mongo:4.0
+    networks:
+      - openhim
+    volumes:
+      - "mongo-data:/data/db"
+    restart: unless-stopped
+  openhim-core:
+    container_name: openhim-core
+    image: jembi/openhim-core:latest
+    restart: unless-stopped
+    environment:
+      mongo_url: "mongodb://mongo-db/openhim-development"
+      mongo_atnaUrl: "mongodb://mongo-db/openhim-development"
+      NODE_ENV: "development"
+      DOMAIN: "MY-HOST"
+    networks:
+      - openhim
+    command: /bin/bash -c "/start.sh" 
+    healthcheck:
+      test: "curl -sSk https://openhim-core:8080/heartbeat || exit 1"
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - /etc/letsencrypt/live/YOUR-HOST/fullchain.pem:/etc/letsencrypt/live/YOUR-HOST/fullchain.pem
+      - /etc/letsencrypt/live/YOUR-HOST/privkey.pem:/etc/letsencrypt/live/YOUR-HOST/privkey.pem
+      - conf/openhim-core/default.json:/usr/src/app/config/default.json
+      - conf/openhim-core/development.json:/usr/src/app/config/development.json
+      - 'conf/openhim-core/start.sh:/start.sh'
+  openhim-console:
+    container_name: openhim-console
+    image: jembi/openhim-console:latest
+    restart: unless-stopped
+    environment:
+      - DOMAIN: "MY-HOST"
+    networks:
+      - openhim
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - 'conf/nginx-console/openhim.tpl:/etc/nginx/conf.d/openhim.tpl'
+      - 'conf/nginx-console/start.sh:/start.sh'
+      - 'conf/nginx-console/default.tpl.json:/usr/share/nginx/html/config/default.tpl.json'
+    healthcheck:
+      test: "curl -sS http://openhim-console || exit 1"
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    command: /bin/bash -c "/start.sh"
+  mediator-somalia:
+    container_name: mediator-somalia
+    restart: unless-stopped
+    networks:
+      - openhim
+    build: ../
+    environment:
+      - OPENHIM_URL=https://openhim-core:8080
+      - TRUST_SELF_SIGNED=true
+      - OPENHIM_USER=${OPENHIM_USER}
+      - OPENHIM_PASSWORD=${OPENHIM_PASSWORD}
+      - SERVER_PORT=4000
+      - CONTAINER_NAME=mediator-somalia
+      - MEDIATOR_NAME=Mediator Somalia
+      - MEDIATOR_URN=urn:mediator:skeleton-production-mediator-somalia
+      - MEDIATOR_DESCRIPTION=Mediator somalia
+      - URL_PATTERN=^/somaliaEndpoint
+      - ROUTE_NAME=Somalia production route
+
+volumes:
+  mongo-data:
