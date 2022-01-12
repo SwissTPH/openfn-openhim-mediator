@@ -1,14 +1,15 @@
 'use strict'
-//import {buildReturnObject} from './utils'
-//const { Execute, Execute_noCLI } = require('../../core/lib/execute_noCLI');
+
+import {buildReturnObject} from './utils'
 var http = require('http');
+
 const {VM} = require('vm2')
+
+const expressions = require('./expression-utils')
 
 import openhim from '../openhim'
 import logger from '../logger'
 import {log} from 'async'
-import {buildReturnObject} from './utils'
-const expressions = require('./expression-utils')
 
 module.exports = async (_req, res) => {
 	
@@ -38,15 +39,13 @@ module.exports = async (_req, res) => {
 
 		const {
 			 safeResolve,
-			 getModuleDetails,
-			 formatCompileError,
+			  getModuleDetails,
+			  formatCompileError,
 			} = require('../../core/lib/utils');
 		const code = openhim.config.job.expression
-		const adaptorPath = 
-		  safeResolve(`${openhim.config.job.language}`) ||
-                  safeResolve(`${openhim.config.job.language}`, { paths: ['.', process.cwd()] });
-		logger.info("language to use is: " + `${openhim.config.job.language}`)
-		logger.info("adaptor path being used: " + adaptorPath)
+		const adaptorPath =
+		  safeResolve(`../../languages/${openhim.config.job.language}`) ||
+		  safeResolve(`../../languages/${openhim.config.job.language}`, { paths: ['.', process.cwd()] });
 		const Adaptor = require(adaptorPath).Adaptor;
 			// Setup our initial global object, adding language packs and any other
 			// objects we want on our root.
@@ -122,75 +121,75 @@ module.exports = async (_req, res) => {
 	}
 
 	const makeErrResponse = function(state, err){
-		  logger.error(err)
-		  logger.info("state in time of error: " + JSON.stringify(state))
-		  let  returnObject = buildReturnObject(
-				'Failed',
-				500,
-				{
-					message: 'Mediator error: Unknown error'
-				}
-			);
-		  if (err.response) {
-			if (err.response.text){
-			  err = JSON.parse(err.response.text)
-			  returnObject = buildReturnObject(
-				  err.httpStatus,
-				  err.httpStatusCode,
-				  err.message,
-				  err
-			  );
-			}else {
+		logger.info(err)
+		let  returnObject = buildReturnObject(
+			'Failed',
+			500,
+			{
+				message: 'Mediator error: Unknown error'
+			}
+		);
+		if (err.response) {
+		if (err.response.text){
+			logger.error("error response text was returned as: ", err.response.text)
+			err = JSON.parse(err.response.text)
 			returnObject = buildReturnObject(
-				err.response.body.httpStatus,
-				err.response.body.httpStatusCode,
-				err.response.body.message + ' \\n ' + JSON.stringify(err.response.body.response.importSummaries),
+				err.httpStatus,
+				err.httpStatusCode,
+				err.message,
 				err
 			);
-			}
-		  }else if (err.message){
-			if (typeof err.message === "string" && err.message.startsWith('responded')){
-			  err = JSON.parse(err.message.split('responded with:', 2)[1]);
-			  logger.error("Promise rejected with error: " + JSON.stringify(err))
-			  returnObject = buildReturnObject(
-				  err.body.httpStatus,
-				  err.body.httpStatusCode,
-				  err.body.message,
-				  err
-			  );
-			}else{
-				try {
-				  if (err.message['responded with:']) {
-					var err = JSON.parse(err.message.split('responded with:', 2)[1]);
-					logger.error(err)
-					returnObject = buildReturnObject(
-						err.body.httpStatus,
-						err.body.httpStatusCode,
-						err.body.message + " " + JSON.stringify(error_obj.body.response.conflicts),
-						err
-					);
-				  }else {
-					err = JSON.parse(err.response.text)
-					returnObject = buildReturnObject(
-						err.httpStatus,
-						err.httpStatusCode,
-						err.message,
-						err
-					);
-				  }
-				}catch {
-				  returnObject = buildReturnObject(
-					  "Failed",
-					  500,
-					  err.message,
-					  err
-				  );
+		}else {
+		logger.error("The error data is: ", err.response.data)
+		returnObject = buildReturnObject(
+			err.response.data.httpStatus,
+			err.response.data.httpStatusCode,
+			err.response.data,
+			err
+		);
+		}
+		}else if (err.message){
+		if (typeof err.message === "string" && err.message.startsWith('responded')){
+			err = JSON.parse(err.message.split('responded with:', 2)[1]);
+			logger.error("Promise rejected with error: " + JSON.stringify(err))
+			returnObject = buildReturnObject(
+				err.body.httpStatus,
+				err.body.httpStatusCode,
+				err.body.message,
+				err
+			);
+		}else{
+			try {
+				if (err.message['responded with:']) {
+				var err = JSON.parse(err.message.split('responded with:', 2)[1]);
+				logger.error('error responded with: ', err)
+				returnObject = buildReturnObject(
+					err.body.httpStatus,
+					err.body.httpStatusCode,
+					err.body.message + " " + JSON.stringify(error_obj.body.response.conflicts),
+					err
+				);
+				}else {
+				err = JSON.parse(err.response.text)
+				logger.error('error response text is: ', err)
+
+				returnObject = buildReturnObject(
+					err.httpStatus,
+					err.httpStatusCode,
+					err.message,
+					err
+				);
 				}
+			}catch {
+				returnObject = buildReturnObject(
+					"Failed",
+					500,
+					err.message,
+					err
+				);
 			}
-		  } 
-			
-		  
-		  
+		}
+		}  
 		  return returnObject;
 
 	}	
@@ -231,4 +230,5 @@ module.exports = async (_req, res) => {
   }
   return res.status(returnObject.response.status).send(returnObject)
 }
+
 
