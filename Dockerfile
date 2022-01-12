@@ -11,7 +11,7 @@ RUN apk update && apk add bash && apk add --no-cache git
 
 RUN npm install
 
-COPY . .
+COPY .app .
 
 
 WORKDIR /app
