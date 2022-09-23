@@ -46,7 +46,7 @@ services:
      timeout: 30s
      retries: 3
   mediator-somalia:
-     container_name: mediator-somalia
+     container_name: mediator-template
      restart: unless-stopped
      networks:
        - openhim
@@ -56,55 +56,15 @@ services:
      environment:
        - OPENHIM_URL=https://openhim-core:8080
        - TRUST_SELF_SIGNED=true
-       - OPENHIM_USER=httu.admin@swisstph.ch
-       - OPENHIM_PASSWORD=xWlUg5Gl1fAyYEG2QeAx
+       - OPENHIM_USER=${OPENHIM_USER}
+       - OPENHIM_PASSWORD=${OPENHIM_PASSWORD}
        - SERVER_PORT=4000
-       - CONTAINER_NAME=mediator-somalia
-       - MEDIATOR_NAME=Mediator Somalia
-       - MEDIATOR_URN=urn:mediator:skeleton-production-mediator-somalia
-       - MEDIATOR_DESCRIPTION=Mediator somalia
-       - URL_PATTERN=^/somaliaEndpoint
+       - CONTAINER_NAME=mediator-temp
+       - MEDIATOR_NAME=Mediator template
+       - MEDIATOR_URN=urn:mediator:skeleton-production-mediator-temp
+       - MEDIATOR_DESCRIPTION=Mediator template
+       - URL_PATTERN=^/tempEndpoint
        - ROUTE_NAME=Somalia production route
-  mediator-sysref-reg:
-     container_name: mediator-sysref-reg
-     restart: unless-stopped
-     networks:
-       - openhim
-     expose:
-       - "4002"
-     build: ../
-     environment:
-       - OPENHIM_URL=https://openhim-core:8080
-       - TRUST_SELF_SIGNED=true
-       - OPENHIM_USERNAME=httu.admin@swisstph.ch
-       - OPENHIM_PASSWORD=xWlUg5Gl1fAyYEG2QeAx
-       - SERVER_PORT=4002
-       - CONTAINER_NAME=mediator-sysref-reg
-       - MEDIATOR_NAME=mediator-sysref-reg
-       - MEDIATOR_URN=urn:mediator:production-mediator-sysref-reg
-       - MEDIATOR_DESCRIPTION=Mediator for Sysref registration project
-       - URL_PATTERN=^/sysrefRegEndpoint
-       - ROUTE_NAME=Sysref registration production route
-  mediator-sysref:
-     container_name: mediator-sysref
-     restart: unless-stopped
-     networks:
-       - openhim
-     expose:
-       - "4001"
-     build: ../
-     environment:
-       - OPENHIM_URL=https://openhim-core:8080
-       - TRUST_SELF_SIGNED=true
-       - OPENHIM_USER=root@openhim.org
-       - OPENHIM_PASSWORD=password
-       - SERVER_PORT=4001
-       - CONTAINER_NAME=mediator-sysref
-       - MEDIATOR_NAME=Skeleton Production Bootstrap Mediator Sysref
-       - MEDIATOR_URN=urn:mediator:skeleton-production-mediator-sysref
-       - MEDIATOR_DESCRIPTION=Mediator Sysref
-       - URL_PATTERN=^/sysrefEndpoint
-       - ROUTE_NAME=Sysref production route
 
 volumes:
   mongo-data:
