@@ -1,0 +1,70 @@
+version: '3'
+networks:
+  openhim:
+
+services:
+  mongo-db:
+    container_name: mongo-db
+    image: mongo:4.0
+    networks:
+      - openhim
+    volumes:
+      - "mongo-data:/data/db"
+    restart: unless-stopped
+
+  openhim-core:
+    container_name: openhim-core
+    image: jembi/openhim-core:latest
+    restart: unless-stopped
+    environment:
+      mongo_url: "mongodb://mongo-db/openhim-development"
+      mongo_atnaUrl: "mongodb://mongo-db/openhim-development"
+      NODE_ENV: "development"
+    ports:
+      - "8080:8080"
+      - "5000:5000"
+      - "5001:5001"
+    networks:
+      - openhim
+    healthcheck:
+     test: "curl -sSk https://openhim-core:8080/heartbeat || exit 1"
+     interval: 30s
+     timeout: 30s
+     retries: 3
+
+  openhim-console:
+    container_name: openhim-console
+    image: jembi/openhim-console:latest
+    restart: unless-stopped
+    networks:
+      - openhim
+    ports:
+      - "9000:80"
+    healthcheck:
+     test: "curl -sS http://openhim-console || exit 1"
+     interval: 30s
+     timeout: 30s
+     retries: 3
+  mediator-somalia:
+     container_name: mediator-template
+     restart: unless-stopped
+     networks:
+       - openhim
+     expose:
+       - "4000"
+     build: ../
+     environment:
+       - OPENHIM_URL=https://openhim-core:8080
+       - TRUST_SELF_SIGNED=true
+       - OPENHIM_USER=${OPENHIM_USER}
+       - OPENHIM_PASSWORD=${OPENHIM_PASSWORD}
+       - SERVER_PORT=4000
+       - CONTAINER_NAME=mediator-temp
+       - MEDIATOR_NAME=Mediator template
+       - MEDIATOR_URN=urn:mediator:skeleton-production-mediator-temp
+       - MEDIATOR_DESCRIPTION=Mediator template
+       - URL_PATTERN=^/tempEndpoint
+       - ROUTE_NAME=Somalia production route
+
+volumes:
+  mongo-data:
