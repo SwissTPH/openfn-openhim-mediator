@@ -12,7 +12,8 @@ const setMediatorUrn = mediatorUrn => {
 const buildReturnObject = (
   openhimTransactionStatus,
   httpResponseStatusCode,
-  responseBody
+  responseBody,
+  state
 ) => {
   const response = {
     status: httpResponseStatusCode,
@@ -23,8 +24,8 @@ const buildReturnObject = (
   return {
     'x-mediator-urn': urn,
     status: openhimTransactionStatus,
-    response,
-    properties: {property: 'Primary Route'}
+    response: response,
+    properties: state
   }
 }
 
