@@ -61,29 +61,29 @@ mediator-default:
 
 5- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
 
-![alt text](images/openhim_mediator.png "Mediators in Openhim")
+![alt text](app/images/openhim_mediator.png "Mediators in Openhim")
 
 6- After the mediator is properly shown in the platform, you will need to install the chanel by clicking on the mediator, and then clicking on the plus sign, as illustrated
 
-![alt text](images/installChanel_mediator.png "Installation of the chanel")
+![alt text](app/images/installChanel_mediator.png "Installation of the chanel")
 
 7- A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
 
-![alt text](images/configuration_mediator.png "Configuration of the Mediator")
+![alt text](app/images/configuration_mediator.png "Configuration of the Mediator")
 
 ## Configuration
 
 To configure the openhim credentials, URL and the port of the server without using the environment variables within the docker command, you can access the file in src/config/config.js and change the according variables.
 
-![alt text](images/config_openhim.png "Configuration of OpenHIM")
+![alt text](app/images/config_openhim.png "Configuration of OpenHIM")
 
 To configure the mediator itself e.g. the name or the fields shown in the platform, you can easily edit the file "mediatorConfig.json". In the following image you can see how the sector for the external server on the platform (with the expression and language was created). To group similar parameters you can use a struct, for a large open field you can use bigstring and so on. Check the useful links for more on this. 
 
-![alt text](images/mediator_config_server.png "Low lever configuration of mediator")
+![alt text](app/images/mediator_config_server.png "Low lever configuration of mediator")
 
 Additionally you can access the variables and even change them in the script "openhim.js" where the mediator configuration is parsed. In the following snippet, the list of languages in, shown in the previous image is accessed and printed. Analog to this, you can access the name and other parameters as well. 
 
-![alt text](images/openhim_config_js.png "Accessing parameters outside the config file")
+![alt text](app/images/openhim_config_js.png "Accessing parameters outside the config file")
 
 ## Utility functions in javascript for expression manipulation
 
