@@ -16,9 +16,16 @@
 For easy usage of the platform, using docker is advised. It can be downloaded from [here](https://www.docker.com/)
 
 To start using OpenHIM and the provided mediator following steps should be followed:
-
-1 - Go to the network directory and run ```docker-compose build```and ``` docker-compose up -d```. This is provided by the openHIM team to easily setup the platform and its database and was extended to build and run the mediator as well, you can change the environmental variables in the same file.
-
+1 - Create an .env file in the root directory with the parameters:
+     - OPENHIM_USERNAME=YOURUSERNAME
+     - OPENHIM_PASSWORD=YOURPASSWORDTOUSER
+     - DOMAIN=YOURDOMAIN
+     - OPENHIM_URL=YOURURL
+     - OPENHIM_USER=YOURUSER
+     1.1 - Run start.sh shell script inside of the "conf/nginx-console" and "conf/openhim-core"
+     
+2 - Run ```docker-compose build```and ``` docker-compose up -d``` in the root directory. This is provided by the openHIM team to easily setup the platform and its database and was extended to build and run the mediator as well, you can change the environmental variables in the same file.
+     - CHANGE THE NAMES MY-HOST AND YOUR-HOST ACCORDINGLY (They should be the same)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1: There are environmental variables in the mediator that can be changed in order for you to have e.g. multiple mediators running, make sure that you change them if you have multiple of those in your docker-file. Even if you dont use the code in this repo, you may take this snippet and have it in your openhim dockerfile as to build your mediator automatically. If you do so, you will only need the variables OPENHIM_URL, TRUST_SELF_SIGNED, OPENHIM_PASSWORD, SERVER_PORT. 
 ```
 mediator-default:
@@ -43,13 +50,11 @@ mediator-default:
  ```
        
 
-2 - After having the openhim network running, follow step 3 to 5 of the openHIM [tutorial](https://github.com/jembi/openhim-mediator-tutorial/blob/master/0_Starting_OpenHIM.md)
+3 - After having the openhim network running, follow step 3 to 5 of the openHIM [tutorial](https://github.com/jembi/openhim-mediator-tutorial/blob/master/0_Starting_OpenHIM.md)
 
-3- Platform should be accessible under localhost:9000 or with your host instead of local in case you modified it.
+4 - Platform should be accessible under localhost:9000 or with your host instead of local in case you modified it.
 
-4- For it to be accessible in a different host, you will have to follow following steps:
-
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.1 - First modify the host parameter in the file "network/default" to your external host.
+5 - For it to be accessible in a different host, you will have to follow following steps:
   
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.2 - You will have to create a certificate in your external host for it to be secure to access. One way to do this, is by installing certbot and running
     ```certbot —nginx -d YOUR-HOST```
@@ -59,15 +64,15 @@ mediator-default:
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4 - The configuration inside the container has also to be altered, so that it takes the certificates, this is also done in the docker-compose by pushing the configuration files inside openhim-core-conf folder, if you use NODE_ENV=development you will need to alter the file openhim-core-conf/development.json, else if you choose to delete this NODE_ENV or set it to production, the file openhim-core-conf/default.json will be read. 
   NOTE: if you only want to use it locally on your localhost, just use the docker-compose file provided by the openhim in the tutorial above. 
 
-5- By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
+6 - By clicking on the mediator tab, you will see all mediators registered in the platform. Here you should see the mediator created with step 3 and 4. By clicking in the settings icon, you will be able to configure your job.
 
 ![alt text](app/images/openhim_mediator.png "Mediators in Openhim")
 
-6- After the mediator is properly shown in the platform, you will need to install the chanel by clicking on the mediator, and then clicking on the plus sign, as illustrated
+7 - After the mediator is properly shown in the platform, you will need to install the chanel by clicking on the mediator, and then clicking on the plus sign, as illustrated
 
 ![alt text](app/images/installChanel_mediator.png "Installation of the chanel")
 
-7- A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
+8 - A configuration menu will open. In the first window, you can define the trigger, which if met, will continue with the execution of the provided expression. In the second window, you may specify the URL of the endserver as well as the corresponding credentials. In the last window, is where you can provide the expression, which corresponds to the action you wish to perform on the endserver, as well as the language that this action requires, e.g. for an action on the dhis2 server you would require the language-dhis2. 
 
 ![alt text](app/images/configuration_mediator.png "Configuration of the Mediator")
 
