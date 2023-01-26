@@ -16,13 +16,14 @@
 For easy usage of the platform, using docker is advised. It can be downloaded from [here](https://www.docker.com/)
 
 To start using OpenHIM and the provided mediator following steps should be followed:
-1 - Create an .env file in the root directory with the parameters:
-     - OPENHIM_USERNAME=YOURUSERNAME
-     - OPENHIM_PASSWORD=YOURPASSWORDTOUSER
-     - DOMAIN=YOURDOMAIN
-     - OPENHIM_URL=YOURURL
-     - OPENHIM_USER=YOURUSER
-     1.1 - Run start.sh shell script inside of the "conf/nginx-console" and "conf/openhim-core"
+1. 
+     - Create an .env file in the root directory with the parameters:
+          - OPENHIM_USERNAME=YOURUSERNAME
+          - OPENHIM_PASSWORD=YOURPASSWORDTOUSER
+          - DOMAIN=YOURDOMAIN
+          - OPENHIM_URL=YOURURL
+          - OPENHIM_USER=YOURUSER
+     1.1  - Run start.sh shell script inside of the "conf/nginx-console" and "conf/openhim-core"
      
 2 - Run ```docker-compose build```and ``` docker-compose up -d``` in the root directory. This is provided by the openHIM team to easily setup the platform and its database and was extended to build and run the mediator as well, you can change the environmental variables in the same file.
      - CHANGE THE NAMES MY-HOST AND YOUR-HOST ACCORDINGLY (They should be the same)
