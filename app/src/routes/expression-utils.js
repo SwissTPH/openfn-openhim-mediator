@@ -12,6 +12,7 @@
  */
 export function convertMultipleChoice(chosenAnswers, condition, conditionsDict, delimiter = " ") {
     // multiples spaces scenario (works)
+    if (chosenAnswers === undefined) { return undefined; }
     let chosenAnswersList = chosenAnswers.split(delimiter)
     var individualSymptoms = {}
     if (chosenAnswers === "s_none") {
@@ -28,6 +29,7 @@ export function convertMultipleChoice(chosenAnswers, condition, conditionsDict, 
 }
 
 export function checkAnswers(chosenAnswers, target, delimiter = " ") {
+    if (chosenAnswers === undefined) { return undefined; }
     let chosenAnswersList = chosenAnswers.split(delimiter)
     return indexOf(chosenAnswersList, target) != -1
 }
